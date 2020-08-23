@@ -5,8 +5,10 @@ import threading
 class Overclocking:
     def __init__(self):
         # looking for Nvidia cards
-        lspci_out = subprocess.check_output('lspci | grep NVIDIA', shell=True).decode().split('\n')
-        self.nvidia_cards = []
+        # lspci_out = subprocess.check_output('lspci | grep NVIDIA', shell=True).decode()
+        self.nvidia_cards = int(subprocess.check_output('nvidia-smi -L | wc -l', shell=True).decode())
+        print(self.nvidia_cards)
+        return
         for line in lspci_out:
             if 'NVIDIA' in line:
                 self.nvidia_cards.append(line)
@@ -36,4 +38,4 @@ class Overclocking:
 
 if __name__ == '__main__':
     obj = Overclocking()
-    obj.set_powerlimit()
+    # obj.set_powerlimit()
