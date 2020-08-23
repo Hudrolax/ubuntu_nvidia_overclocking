@@ -25,7 +25,7 @@ class Overclocking:
 
     def set_powerlimit(self):
         for card in enumerate(self.nvidia_cards):
-            _thread = threading.Thread(target=self._threaded_set_powerlimit, args=(card[0]), daemon=False)
+            _thread = threading.Thread(target=self._threaded_set_powerlimit, args=((card[0])), daemon=False)
             _thread.start()
 
     def _threaded_set_powerlimit(self, card):
