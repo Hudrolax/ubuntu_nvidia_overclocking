@@ -14,14 +14,14 @@ class Overclocking:
         for card in enumerate(self.nvidia_cards):
             print(card)
 
-        # prepare system for overclocking
-        display = subprocess.check_output('export DISPLAY=:0', shell=True)
-        display = subprocess.check_output('export XAUTHORITY=/var/run/lightdm/root/:0', shell=True)
-        display = subprocess.check_output('sudo xhost +', shell=True).decode()
-        print(display)
-        if display.lower().find('unable to open display') > -1:
-            print('error open display port')
-            exit()
+        # # prepare system for overclocking
+        # display = subprocess.check_output('export DISPLAY=:0', shell=True)
+        # display = subprocess.check_output('export XAUTHORITY=/var/run/lightdm/root/:0', shell=True)
+        # display = subprocess.check_output('sudo xhost +', shell=True).decode()
+        # print(display)
+        # if display.lower().find('unable to open display') > -1:
+        #     print('error open display port')
+        #     exit()
 
     def set_powerlimit(self):
         for card in enumerate(self.nvidia_cards):
