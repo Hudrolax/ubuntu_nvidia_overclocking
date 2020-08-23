@@ -24,15 +24,12 @@ class Overclocking:
 
     def set_funs_speed(self):
         for gpu in range(0, self.nvidia_cards):
-            _thread = threading.Thread(target=self._threaded_set_funs_speed, args=(gpu,), daemon=False)
-            _thread.start()
-
-    def _threaded_set_funs_speed(self, gpu):
-        print(f'Start to set fun speed for card {gpu}')
-        out = subprocess.check_output(f'nvidia-settings -a "[gpu:{gpu}]/GPUFanControlState=1"', shell=True).decode()
-        print(out)
-        out = subprocess.check_output(f'nvidia-settings -a "[fan:{gpu}]/GPUTargetFanSpeed={self._funs_speed}"', shell=True).decode()
-        print(out)
+            print(f'Start to set fun speed for card {gpu}')
+            out = subprocess.check_output(f'nvidia-settings -a "[gpu:{gpu}]/GPUFanControlState=1"', shell=True).decode()
+            print(out)
+            out = subprocess.check_output(f'nvidia-settings -a "[fan:{gpu}]/GPUTargetFanSpeed={self._funs_speed}"',
+                                          shell=True).decode()
+            print(out)
 
 if __name__ == '__main__':
     obj = Overclocking()
