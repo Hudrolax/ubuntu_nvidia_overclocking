@@ -29,7 +29,9 @@ class Overclocking:
 
     def _threaded_set_funs_speed(self, gpu):
         print(f'Start to set fun speed for card {gpu}')
-        out = subprocess.check_output(f'sudo nvidia-settings -a "[gpu:{gpu}]/GPUFanControlState=1" && sudo nvidia-settings -a "[fan:{gpu}]/GPUTargetFanSpeed={self._funs_speed}"', shell=True).decode()
+        out = subprocess.check_output(f'nvidia-settings -a "[gpu:{gpu}]/GPUFanControlState=1"', shell=True).decode()
+        print(out)
+        out = subprocess.check_output(f'nvidia-settings -a "[fan:{gpu}]/GPUTargetFanSpeed={self._funs_speed}"', shell=True).decode()
         print(out)
 
 if __name__ == '__main__':
