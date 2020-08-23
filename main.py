@@ -4,38 +4,23 @@ import threading
 
 class Overclocking:
     def __init__(self):
+        self.powerlimit_watts = 152
         # looking for Nvidia cards
-        # lspci_out = subprocess.check_output('lspci | grep NVIDIA', shell=True).decode()
         self.nvidia_cards = int(subprocess.check_output('nvidia-smi -L | wc -l', shell=True).decode())
-        print(self.nvidia_cards)
-        return
-        for line in lspci_out:
-            if 'NVIDIA' in line:
-                self.nvidia_cards.append(line)
-        print('Founded NVIDIA cards:')
-        for card in enumerate(self.nvidia_cards):
-            print(card)
-
-        # # prepare system for overclocking
-        # display = subprocess.check_output('export DISPLAY=:0', shell=True)
-        # display = subprocess.check_output('export XAUTHORITY=/var/run/lightdm/root/:0', shell=True)
-        # display = subprocess.check_output('sudo xhost +', shell=True).decode()
-        # print(display)
-        # if display.lower().find('unable to open display') > -1:
-        #     print('error open display port')
-        #     exit()
+        print(f'{self.nvidia_cards} NVIDIA cards found.')
 
     def set_powerlimit(self):
-        for card in enumerate(self.nvidia_cards):
-            _thread = threading.Thread(target=self._threaded_set_powerlimit, args=(card[0],), daemon=False)
+        for card in range(0, 12):
+            _thread = threading.Thread(target=self._threaded_set_powerlimit, args=(card,), daemon=False)
             _thread.start()
 
     def _threaded_set_powerlimit(self, card):
         print(f'Start to set powerlimit for card {card}')
-        subprocess.check_output(f'sudo nvidia-smi -i {card} -pm 1', shell=True)
-        subprocess.check_output(f'sudo nvidia-smi -i {card} -pl 70', shell=True)
-        print(f'powerlimit for card {card} set to 70%')
+        out = subprocess.check_output(f'sudo nvidia-smi -i {card} -pm 1', shell=True).decode()
+        print(out)
+        out = subprocess.check_output(f'sudo nvidia-smi -i {card} -pl {self.powerlimit_watts}', shell=True).decode()
+        print(out)
 
 if __name__ == '__main__':
     obj = Overclocking()
-    # obj.set_powerlimit()
+    obj.set_powerlimit()
